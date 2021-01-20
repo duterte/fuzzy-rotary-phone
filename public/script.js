@@ -5,9 +5,9 @@ const formData = new FormData();
 
 formData.counter = 0;
 formData.addData = function (value, cb) {
-  console.log('counter:', this.counter);
   this.append(`data${this.counter}`, value);
   this.counter++;
+  console.log('counter:', this.counter);
   cb();
 };
 
@@ -106,5 +106,5 @@ function getRequest(param) {
 }
 
 function bodyLoad() {
-  getRequest(1);
+  getRequest(0);
 }
