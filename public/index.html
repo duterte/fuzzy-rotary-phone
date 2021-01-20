@@ -2,8 +2,19 @@
 <html lang="en">
 
 <head>
-  <link rel="preload" type="font/ttf" href="Montserrat-Regular.ttf" as="font">
-  <link rel="preload" type="font/ttf" href="Nunito-Regular.ttf" as="font">
+  <link rel="preload" type="font/ttf" href="Montserrat-Regular.ttf" as="font" crossorigin>
+  <link rel="preload" type="font/ttf" href="Nunito-Regular.ttf" as="font" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Montseratt';
+      src: url("Montserrat-Regular.ttf");
+    }
+
+    @font-face {
+      font-family: 'Nunito';
+      src: url("Nunito-Regular.ttf");
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
@@ -12,17 +23,18 @@
 
 <body>
   <div id="root">
-    <div class="data">
-      <h3>DATA Area</h3>
-      <div id="data-list"></div>
-    </div>
     <div class="prompt">
       <h4>prompt</h4>
       <div class="question">
-        <p>Please state your address</p>
-        <input type="text" id="answer">
+        <div id="question-text"></div>
+        <div id="question-type"></div>
       </div>
       <span class="page-button" id="continue">continue</span>
+    </div>
+    <div class="data">
+      <h3>DATA Area</h3>
+      <div id="data-list">
+      </div>
     </div>
   </div>
   <script src="script.js"></script>

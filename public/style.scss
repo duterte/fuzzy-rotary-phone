@@ -28,6 +28,7 @@ h6 {
 .page-button {
   text-transform: uppercase;
   cursor: pointer;
+  padding: 0.5em 1em;
 }
 
 #root {
@@ -54,10 +55,41 @@ h6 {
   grid-template-rows: 1fr 1fr 1fr;
   top: 20px;
   right: 5px;
-  width: 295px;
-  height: 440px;
+  // width: 295px;
+  // height: 440px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   z-index: 100;
+  background-color: white;
+  opacity: 0;
+}
+
+.prompt.hide {
+  animation-name: hideprompt;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+}
+
+.prompt.show {
+  animation-name: showprompt;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+}
+
+@keyframes hideprompt {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes showprompt {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .prompt > h4 {
@@ -78,18 +110,23 @@ h6 {
   padding-right: 2em;
 }
 
-.question > p {
+.question > #question-text {
   font-weight: bold;
 }
 
-.question > #answer {
+.question > #question-type {
   width: 100%;
   height: 31px;
   margin-top: 4em;
 }
 
+#question-type .page-button {
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+}
+
 .prompt > .page-button {
-  padding: 0.5em 1em;
   background-color: green;
   color: white;
   grid-row: 3/4;
@@ -97,4 +134,11 @@ h6 {
   justify-self: end;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.prompt > .page-button.hide {
+  opacity: 0;
+  pointer-events: none;
 }

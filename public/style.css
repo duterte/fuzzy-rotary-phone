@@ -29,6 +29,7 @@ h6 {
 .page-button {
   text-transform: uppercase;
   cursor: pointer;
+  padding: 0.5em 1em;
 }
 
 #root {
@@ -57,11 +58,65 @@ h6 {
       grid-template-rows: 1fr 1fr 1fr;
   top: 20px;
   right: 5px;
-  width: 295px;
-  height: 440px;
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   z-index: 100;
+  background-color: white;
+  opacity: 0;
+}
+
+.prompt.hide {
+  -webkit-animation-name: hideprompt;
+          animation-name: hideprompt;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+}
+
+.prompt.show {
+  -webkit-animation-name: showprompt;
+          animation-name: showprompt;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+}
+
+@-webkit-keyframes hideprompt {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hideprompt {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes showprompt {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes showprompt {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .prompt > h4 {
@@ -91,18 +146,23 @@ h6 {
   padding-right: 2em;
 }
 
-.question > p {
+.question > #question-text {
   font-weight: bold;
 }
 
-.question > #answer {
+.question > #question-type {
   width: 100%;
   height: 31px;
   margin-top: 4em;
 }
 
+#question-type .page-button {
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+}
+
 .prompt > .page-button {
-  padding: 0.5em 1em;
   background-color: green;
   color: white;
   -ms-grid-row: 3;
@@ -115,4 +175,12 @@ h6 {
       justify-self: end;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
+  opacity: 1;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
+}
+
+.prompt > .page-button.hide {
+  opacity: 0;
+  pointer-events: none;
 }
