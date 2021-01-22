@@ -182,7 +182,7 @@ class WinPrompt extends Layout {
 
 function getRequest(param) {
   const index = param;
-  fetch(`http://localhost:3000/questions/${index}`)
+  fetch(`https://texteditorprototype.herokuapp.com/questions/${index}`)
     .then(res => {
       if (res.status > 399) {
         throw new Error(`Network Request failed status code ${res.status}`);
