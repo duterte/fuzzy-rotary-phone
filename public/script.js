@@ -16,7 +16,6 @@ class Layout {
   border() {
     const element = document.createElement('div');
     element.id = 'prompt';
-    console.log('moving');
     if (promptPos.x && promptPos.y) {
       element.style.left = `${promptPos.x}px`;
       element.style.top = `${promptPos.y}px`;
@@ -28,6 +27,54 @@ class Layout {
   heading() {
     const element = document.createElement('h4');
     element.innerText = this.headingText;
+
+    return element;
+  }
+
+  continueBtn() {
+    const element = document.createElement('span');
+    element.className = 'page-button continue-button';
+    element.innerText = 'CONTINUE';
+    element.addEventListener('click', clickHandler);
+
+    function clickHandler(e) {
+      const answers = document.querySelectorAll('.answer');
+      let countAnswers = 0;
+      let countQuestions = 0;
+      answers.forEach(answer => {
+        countQuestions++;
+        if (answer.value) {
+          countAnswers++;
+        }
+      });
+
+      if (countQuestions !== countAnswers) return;
+
+      const prompt = document.querySelector('#prompt');
+      prompt.classList.add('hide');
+      answers.forEach(answer => {
+        if (answer.value) {
+          store[store.length - 1].answers.push({
+            question: store[store.length - 1].input[0].question,
+            answer: answer,
+          });
+          const str = answer.value.toString();
+          store[store.length - 1].output = store[
+            store.length - 1
+          ].output.replace('@:input:', `<span>${str}</span>`);
+        }
+      });
+
+      const editor = document.querySelector('#editor');
+      const div = document.createElement('div');
+      div.className = 'data';
+      div.innerHTML = `${store[store.length - 1].output}`;
+      editor.append(div);
+      setTimeout(() => {
+        document.body.removeChild(prompt);
+        getRequest(store.length);
+      }, 900);
+    }
 
     return element;
   }
@@ -106,54 +153,6 @@ class WinPrompt extends Layout {
     this.input = input;
   }
 
-  continueBtn() {
-    const element = document.createElement('span');
-    element.className = 'page-button continue-button';
-    element.innerText = 'CONTINUE';
-    element.addEventListener('click', clickHandler);
-
-    function clickHandler(e) {
-      const answers = document.querySelectorAll('.answer');
-      let countAnswers = 0;
-      let countQuestions = 0;
-      answers.forEach(answer => {
-        countQuestions++;
-        if (answer.value) {
-          countAnswers++;
-        }
-      });
-
-      if (countQuestions !== countAnswers) return;
-
-      const prompt = document.querySelector('#prompt');
-      prompt.classList.add('hide');
-      answers.forEach(answer => {
-        if (answer.value) {
-          store[store.length - 1].answers.push({
-            question: store[store.length - 1].input[0].question,
-            answer: answer,
-          });
-          const str = answer.value.toString();
-          store[store.length - 1].output = store[
-            store.length - 1
-          ].output.replace('@:input:', `<span>${str}</span>`);
-        }
-      });
-
-      const editor = document.querySelector('#editor');
-      const div = document.createElement('div');
-      div.className = 'data';
-      div.innerHTML = `${store[store.length - 1].output}`;
-      editor.append(div);
-      setTimeout(() => {
-        document.body.removeChild(prompt);
-        getRequest(store.length);
-      }, 900);
-    }
-
-    return element;
-  }
-
   render() {
     const div = document.createElement('div');
     div.className = 'question-wrapper';
@@ -170,10 +169,11 @@ class WinPrompt extends Layout {
 
     const border = this.border();
     const heading = this.heading();
+    const continueBtn = this.continueBtn();
 
     border.append(heading);
     border.append(div);
-    border.append(this.continueBtn());
+    border.append(continueBtn);
     return border;
   }
 }
@@ -182,7 +182,7 @@ class WinPrompt extends Layout {
 
 function getRequest(param) {
   const index = param;
-  fetch(`https://texteditorprototype.herokuapp.com/questions/${index}`)
+  fetch(`http://localhost:3000/questions/${index}`)
     .then(res => {
       if (res.status > 399) {
         throw new Error(`Network Request failed status code ${res.status}`);
