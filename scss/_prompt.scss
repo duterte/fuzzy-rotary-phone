@@ -1,0 +1,13 @@
+#prompt {
+  position: fixed;
+  z-index: 100;
+  right: 11px;
+  top: 11px;
+  opacity: 1;
+  transition: opacity 1s linear;
+}
+
+#prompt.hide {
+  opacity: 0;
+  pointer-events: none;
+}

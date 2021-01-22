@@ -5,9 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const questions = [
-  { text: 'Please state your address ?', type: 'InputText' },
-  { text: 'How much is the monthy rate ?', type: 'InputText' },
-  { text: 'Is this for sale ?', type: 'Boolean' },
+  { text: 'Please state your address ?', type: 'TextType' },
+  { text: 'How much is the monthy rate ?', type: 'TextType' },
+  { text: 'Is this for sale ?', type: 'BooleanType' },
 ];
 
 app.use((req, res, next) => {
