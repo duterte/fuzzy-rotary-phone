@@ -21,10 +21,6 @@ class Layout {
       element.style.left = `${promptPos.x}px`;
       element.style.top = `${promptPos.y}px`;
     }
-    // else {
-    //   element.style.right = '11px';
-    //   element.style.top = '11px';
-    // }
 
     return element;
   }
