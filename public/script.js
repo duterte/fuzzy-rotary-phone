@@ -178,7 +178,6 @@ function getRequest(param) {
       if (input && input.length > 0) {
         const winPrompt = new WinPrompt({ input: input });
         store.push(json);
-        console.log(store);
         document.body.append(winPrompt.render());
       }
     })
