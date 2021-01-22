@@ -1,8 +1,5 @@
 const continueBtn = document.querySelector('#continue');
-
 const store = [];
-
-// let winPrompt = undefined;
 
 function printStyle(htmlElement, cssObject) {
   for (const cssProperty in cssObject) {
