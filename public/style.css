@@ -64,6 +64,7 @@ h6 {
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   color: black;
   width: 258px;
+  max-height: 90vh;
   position: fixed;
   z-index: 100;
   right: 11px;
@@ -72,6 +73,8 @@ h6 {
   -webkit-transition: opacity 1s linear;
   transition: opacity 1s linear;
   font-family: 'Nunito';
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #prompt h4 {

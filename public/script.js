@@ -1,13 +1,14 @@
-const continueBtn = document.querySelector('#continue');
 const store = [];
+const promptPos = {
+  x: undefined,
+  y: undefined,
+};
 
-function printStyle(htmlElement, cssObject) {
-  for (const cssProperty in cssObject) {
-    htmlElement.style[cssProperty] = cssObject[cssProperty];
-  }
-}
+window.addEventListener('load', () => {
+  getRequest(0);
+});
 
-class MessagePrompt {
+class Layout {
   constructor({ headingText = 'prompt' }) {
     this.headingText = headingText;
   }
@@ -15,19 +16,26 @@ class MessagePrompt {
   border() {
     const element = document.createElement('div');
     element.id = 'prompt';
+    console.log('moving');
+    if (promptPos.x && promptPos.y) {
+      element.style.left = `${promptPos.x}px`;
+      element.style.top = `${promptPos.y}px`;
+    }
+    // else {
+    //   element.style.right = '11px';
+    //   element.style.top = '11px';
+    // }
+
     return element;
   }
 
   heading() {
     const element = document.createElement('h4');
     element.innerText = this.headingText;
+
     return element;
   }
 }
-
-window.addEventListener('load', () => {
-  getRequest(0);
-});
 
 class TextType {
   constructor(question) {
@@ -95,7 +103,8 @@ class BooleanType {
 }
 
 // Inversion of Control
-class WinPrompt extends MessagePrompt {
+
+class WinPrompt extends Layout {
   constructor({ headingText, width, input }) {
     super({ headingText, width });
     this.input = input;
@@ -173,9 +182,11 @@ class WinPrompt extends MessagePrompt {
   }
 }
 
+// remote host: https://texteditorprototype.herokuapp.com
+
 function getRequest(param) {
   const index = param;
-  fetch(`https://texteditorprototype.herokuapp.com/questions/${index}`)
+  fetch(`http://localhost:3000/questions/${index}`)
     .then(res => {
       if (res.status > 399) {
         throw new Error(`Network Request failed status code ${res.status}`);
@@ -183,12 +194,47 @@ function getRequest(param) {
       return res.json();
     })
     .then(json => {
-      const { input, output } = json;
+      const { input } = json;
       if (input && input.length > 0) {
         const winPrompt = new WinPrompt({ input: input });
         store.push(json);
         document.body.append(winPrompt.render());
+        moveWindow();
       }
     })
     .catch(err => console.log(err));
+}
+
+// Feature and Functionality ::::
+
+// This feature allow user to drag and move the prompt
+function moveWindow() {
+  const element = document.querySelector('#prompt');
+  let offset = [0, 0];
+  let isDown = false;
+  element.addEventListener(
+    'mousedown',
+    function (e) {
+      isDown = true;
+      offset = [
+        e.currentTarget.offsetLeft - e.clientX,
+        e.currentTarget.offsetTop - e.clientY,
+      ];
+    },
+    true
+  );
+
+  element.addEventListener('mouseup', function () {
+    isDown = false;
+  });
+
+  element.addEventListener('mousemove', function (e) {
+    e.preventDefault();
+    if (isDown) {
+      element.style.left = `${e.clientX + offset[0]}px`;
+      element.style.top = `${e.clientY + offset[1]}px`;
+      promptPos['x'] = e.clientX + offset[0];
+      promptPos['y'] = e.clientY + offset[1];
+    }
+  });
 }
