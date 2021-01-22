@@ -111,19 +111,31 @@ class WinPrompt extends MessagePrompt {
     element.addEventListener('click', clickHandler);
 
     function clickHandler(e) {
+      const answers = document.querySelectorAll('.answer');
+      let countAnswers = 0;
+      let countQuestions = 0;
+      answers.forEach(answer => {
+        countQuestions++;
+        if (answer.value) {
+          countAnswers++;
+        }
+      });
+
+      if (countQuestions !== countAnswers) return;
+
       const prompt = document.querySelector('#prompt');
       prompt.classList.add('hide');
-      const answers = document.querySelectorAll('.answer');
       answers.forEach(answer => {
-        store[store.length - 1].answers.push({
-          question: store[store.length - 1].input[0].question,
-          answer: answer,
-        });
-        const str = answer.value.toString();
-        store[store.length - 1].output = store[store.length - 1].output.replace(
-          '@:input:',
-          `<span>${str}</span>`
-        );
+        if (answer.value) {
+          store[store.length - 1].answers.push({
+            question: store[store.length - 1].input[0].question,
+            answer: answer,
+          });
+          const str = answer.value.toString();
+          store[store.length - 1].output = store[
+            store.length - 1
+          ].output.replace('@:input:', `<span>${str}</span>`);
+        }
       });
 
       const editor = document.querySelector('#editor');
