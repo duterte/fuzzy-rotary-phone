@@ -191,15 +191,21 @@ function getRequest(param) {
       const { input } = json;
       if (input && input.length > 0) {
         const winPrompt = new WinPrompt({ input: input });
+        const target = document.body;
+        const element = winPrompt.render();
         store.push(json);
-        document.body.append(winPrompt.render());
-        moveWindow();
+        mountComponent(target, element, () => moveWindow());
       }
     })
     .catch(err => console.log(err));
 }
 
 // Feature and Functionality ::::
+
+function mountComponent(target, component, cb) {
+  target.append(component);
+  cb();
+}
 
 // This feature allow user to drag and move the prompt
 function moveWindow() {
