@@ -1,13 +1,3 @@
-@font-face {
-  font-family: 'Montseratt';
-  src: url(Montserrat-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Nunito';
-  src: url(Nunito-Regular.ttf);
-}
-
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -52,6 +42,12 @@ h6 {
 
 .data span {
   color: red;
+}
+
+#editorjs {
+  margin: 6em auto 6em auto;
+  width: 792px;
+  min-height: 800px;
 }
 
 #prompt {

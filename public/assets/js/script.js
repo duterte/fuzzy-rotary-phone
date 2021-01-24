@@ -37,7 +37,7 @@ class Layout {
     element.innerText = 'CONTINUE';
     element.addEventListener('click', clickHandler);
 
-    function clickHandler(e) {
+    function clickHandler() {
       const answers = document.querySelectorAll('.answer');
       let countAnswers = 0;
       let countQuestions = 0;
@@ -178,11 +178,9 @@ class WinPrompt extends Layout {
   }
 }
 
-// remote host: https://texteditorprototype.herokuapp.com
-
 function getRequest(param) {
   const index = param;
-  fetch(`http://localhost:3000/questions/${index}`)
+  fetch(`/questions/${index}`)
     .then(res => {
       if (res.status > 399) {
         throw new Error(`Network Request failed status code ${res.status}`);
